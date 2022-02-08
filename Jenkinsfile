@@ -4,8 +4,10 @@ pipeline {
     nodejs "node"
   }
   stages {
-      stage('install') {
-        steps {
-          sh "maven clean install"
-        }
+    stage('install') {
+      steps {
+        sh "maven clean install"
       }
+    }
+  }
+}
