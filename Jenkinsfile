@@ -70,8 +70,10 @@ pipeline {
        steps {
 //          sh "docker save homeacademy/home-application > home-application.tar"
 //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
-         docker.withRegistry("${repository_uri}", "ecr:${aws_default_region}:aws-ecr-auth") {
-           docker.image("homeacademy/home-application").push()
+         script {
+           docker.withRegistry("${repository_uri}", "ecr:${aws_default_region}:aws-ecr-auth") {
+             docker.image("homeacademy/home-application").push()
+           }
          }
        }
      }
