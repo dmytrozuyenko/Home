@@ -70,11 +70,12 @@ pipeline {
        steps {
 //          sh "docker save homeacademy/home-application > home-application.tar"
 //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
-         sh "docker image tag homeacademy/home-application home-application"
-         sh "docker image tag homeacademy/data-migration data-migration"
+//          sh "docker image tag homeacademy/home-application home-application"
+//          sh "docker image tag homeacademy/data-migration data-migration"
          script {
-           docker.withRegistry("${repository_uri}", "aws-auth") {
+           docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
              docker.image("home-application").push()
+             docker.image("data-migration").push()
            }
          }
        }
