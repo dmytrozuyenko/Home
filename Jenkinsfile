@@ -51,8 +51,8 @@ pipeline {
     
      stage('push') {
        steps {
-         sh "sudo docker save homeacademy/home-application > home-application.tar"
-         sh "sudo docker save homeacademy/data-migration > home-data-migration.tar"
+         sh "docker save homeacademy/home-application > home-application.tar"
+         sh "docker save homeacademy/data-migration > home-data-migration.tar"
  
        }
      }
