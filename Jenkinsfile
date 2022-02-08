@@ -4,11 +4,11 @@ pipeline {
     maven "maven"
   }
   environment {
-    aws_account_id=”209998915568”
-    aws_default_region=”us-east-2"
-    image_repo_name="home-dev”
-    image_tag=”latest”
-    repository_uri = “${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/”
+    aws_account_id="209998915568"
+    aws_default_region="us-east-2"
+    image_repo_name="home-dev"
+    image_tag="latest"
+    repository_uri = "${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/"
 }
   stages {
 //     stage('version') {
