@@ -27,10 +27,10 @@ pipeline {
       }
     }
     
-//     stage('install') {
-//       steps {
-//         sh "maven clean install"
-//       }
-//     }
+    stage('test') {
+      steps {
+        sh "mvn sonar:sonar"
+      }
+    }
   }
 }
