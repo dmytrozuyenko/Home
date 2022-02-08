@@ -8,7 +8,7 @@ pipeline {
     aws_default_region="us-east-2"
     image_repo_name="home-dev"
     image_tag="latest"
-    repository_uri = "https://${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
+    repository_uri = "https://${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/"
 }
   stages {
 //     stage('version') {
@@ -73,8 +73,8 @@ pipeline {
          sh "docker image tag homeacademy/home-application home-application"
          sh "docker image tag homeacademy/data-migration data-migration"
          script {
-           docker.withRegistry('${repository_uri}', 'aws-ecr-auth') {
-             docker.image('home-application').push()
+           docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
+             docker.image("home-application").push()
            }
          }
        }
