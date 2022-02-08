@@ -40,11 +40,11 @@ pipeline {
 //                     }
 //                 }    
     // WORKS!
-    stage('install') {
-      steps {        
-        sh "mvn clean install"
-      }
-    }
+//     stage('install') {
+//       steps {        
+//         sh "mvn clean install"
+//       }
+//     }
     
     // WORKS!
 //     stage('test') {
@@ -73,7 +73,7 @@ pipeline {
          sh "docker image tag homeacademy/home-application home-application"
          sh "docker image tag homeacademy/data-migration data-migration"
          script {
-           docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
+           docker.withRegistry("${repository_uri}", "aws-auth") {
              docker.image("home-application").push()
            }
          }
