@@ -75,7 +75,7 @@ pipeline {
          script {
            docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
              docker.image("home-application").push()
-             docker.image("data-migration").push()
+//              docker.image("data-migration").push()
            }
          }
        }
