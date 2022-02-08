@@ -32,6 +32,7 @@ pipeline {
         withCredentials([string(credentialsId: 'sonarqube-token', variable: 'sonarqube_token')]) {
           sh "mvn clean verify sonar:sonar -Dsonar.host.url=http://34.68.178.19:9000 -Dsonar.login=${sonarqube_token}"
 //         sh "mvn sonar:sonar"
+        }
       }
     }
   }
