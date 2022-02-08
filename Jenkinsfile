@@ -21,15 +21,17 @@ pipeline {
 //           sh 'git push https://${github_token}@github.com/${github_user}/home.git --force'
 //         }
     
-    stage('install') {
-      steps {        
-        sh "mvn clean install"
-      }
-    }
+//     stage('install') {
+//       steps {        
+//         sh "mvn clean install"
+//       }
+//     }
     
     stage('test') {
       steps {
-        sh "mvn sonar:sonar"
+        withCredentials([string(credentialsId: 'sonarqube-token', variable: 'sonarqube_token')]) {
+          sh "mvn clean verify sonar:sonar -Dsonar.host.url=http://34.68.178.19:9000 -Dsonar.login=${sonarqube_token}"
+//         sh "mvn sonar:sonar"
       }
     }
   }
