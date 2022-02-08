@@ -74,7 +74,7 @@ pipeline {
          sh "docker image tag homeacademy/data-migration data-migration"
          script {
            docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
-             docker.image("home-dev/home-application").push()
+             docker.image("home-application").push()
            }
          }
        }
