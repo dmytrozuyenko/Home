@@ -58,7 +58,7 @@ pipeline {
     
     stage(‘Logging’) {
       steps {
-        sh 'aws -version'
+        sh 'aws --version'
         
       }
     }
