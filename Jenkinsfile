@@ -56,30 +56,29 @@ pipeline {
 //       }
 //     }
     
-//     stage(‘Logging into AWS ECR’) {
-//       steps {
-// //         script {
-// //           sh “aws ecr get-login-password — region ${AWS_DEFAULT_REGION} | docker login — username AWS — password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
-// //         }
-
-//       }
-//     }
+    stage(‘Logging into AWS ECR’) {
+      steps {
+        script {
+          sh “aws ecr get-login-password — region ${aws_default_region} | docker login — username AWS — password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com”
+        }
+      }
+    }
 
     
-     stage('push') {
-       steps {
-//          sh "docker save homeacademy/home-application > home-application.tar"
-//          sh "docker save homeacademy/data-migration > home-data-migration.tar"
-         sh "docker image tag homeacademy/home-application home-application"
-         sh "docker image tag homeacademy/data-migration data-migration"
-         script {
-           docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
-             docker.image("home-application").push()
-             docker.image("data-migration").push()
-           }
-         }
-       }
-     }
+//      stage('push') {
+//        steps {
+// //          sh "docker save homeacademy/home-application > home-application.tar"
+// //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
+//          sh "docker image tag homeacademy/home-application home-application"
+//          sh "docker image tag homeacademy/data-migration data-migration"
+//          script {
+//            docker.withRegistry("${repository_uri}", "aws-ecr-auth") {
+//              docker.image("home-application").push()
+//              docker.image("data-migration").push()
+//            }
+//          }
+//        }
+//      }
     
   }
 }
