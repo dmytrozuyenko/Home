@@ -77,7 +77,7 @@ pipeline {
            sh "export AWS_ACCESS_KEY_ID=${aws_access_key}"
            sh "export AWS_SECRET_ACCESS_KEY=${aws_secret_key}"
            sh "export AWS_DEFAULT_REGION=${aws_default_region}"
-           
+         }  
          script {
            sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
            docker.withRegistry('https://209998915568.dkr.ecr.us-east-2.amazonaws.com', 'aws-auth') {
