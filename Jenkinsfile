@@ -72,7 +72,10 @@ pipeline {
 //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
          sh "docker image tag homeacademy/home-application home-application"
          sh "docker image tag homeacademy/data-migration data-migration"
+         sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
          script {
+           
+           sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
            docker.withRegistry('https://209998915568.dkr.ecr.us-east-2.amazonaws.com', 'aws-auth') {
              docker.image("home-application").push()
              docker.image("data-migration").push()
