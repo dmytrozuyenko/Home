@@ -73,7 +73,7 @@ pipeline {
          sh "docker image tag homeacademy/home-application home-application"
          sh "docker image tag homeacademy/data-migration data-migration"
          script {
-           docker.withRegistry("https://209998915568.dkr.ecr.us-east-2.amazonaws.com", "ecr:us-east-2:aws-auth") {
+           docker.withRegistry('https://209998915568.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-auth') {
              docker.image("home-application").push()
              docker.image("data-migration").push()
            }
