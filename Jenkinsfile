@@ -72,9 +72,13 @@ pipeline {
 //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
          sh "docker image tag homeacademy/home-application home-application"
          sh "docker image tag homeacademy/data-migration data-migration"
-         sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
-         script {
+//          sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
+         withCredentials([usernamePassword(credentialsId: 'aws-auth', passwordVariable: 'aws_secret_key', usernameVariable: 'aws_access_key')]) {
+           sh "export AWS_ACCESS_KEY_ID=${aws_access_key}"
+           sh "export AWS_SECRET_ACCESS_KEY=${aws_secret_key}"
+           sh "export AWS_DEFAULT_REGION=${aws_default_region}"
            
+         script {
            sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
            docker.withRegistry('https://209998915568.dkr.ecr.us-east-2.amazonaws.com', 'aws-auth') {
              docker.image("home-application").push()
