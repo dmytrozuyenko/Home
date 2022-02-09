@@ -56,38 +56,26 @@ pipeline {
 //       }
 //     }
     
-//     stage(‘Logging’) {
+    // WORKS!
+//     stage('push') {
 //       steps {
-//         sh 'aws --version'
+//         script {
+//           sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
+//           sh "docker tag homeacademy/home-application:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+//           sh "docker tag homeacademy/data-migration:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+//         }
+//       }
+//     }
+
+//     stage('deploy') {
+//       steps {
+//         build job: 'home-dev_infra/main'
         
 //       }
 //     }
 
-    
-     stage('push') {
-       steps {
-// //          sh "docker save homeacademy/home-application > home-application.tar"
-// //          sh "docker save homeacademy/data-migration > home-data-migration.tar"
-//          sh "docker image tag homeacademy/home-application home-application"
-//          sh "docker image tag homeacademy/data-migration data-migration"
-// //          sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
-//          withCredentials([usernamePassword(credentialsId: 'aws-auth', passwordVariable: 'aws_secret_key', usernameVariable: 'aws_access_key')]) {
-//            sh "export AWS_ACCESS_KEY_ID=${aws_access_key}"
-//            sh "export AWS_SECRET_ACCESS_KEY=${aws_secret_key}"
-//            sh "export AWS_DEFAULT_REGION=${aws_default_region}"
-//          }  
-         script {
-           sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
-           sh "docker tag data-migration:latest 209998915568.dkr.ecr.us-east-2.amazonaws.com/data-migration:latest"
-           sh "docker push 209998915568.dkr.ecr.us-east-2.amazonaws.com/data-migration:latest"
-           
-//            docker.withRegistry('https://209998915568.dkr.ecr.us-east-2.amazonaws.com', 'aws-auth') {
-//              docker.image("home-application").push()
-//              docker.image("data-migration").push()
-//            }
-         }
-       }
-     }
     
   }
 }
