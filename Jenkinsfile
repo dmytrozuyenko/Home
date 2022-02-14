@@ -18,7 +18,6 @@ pipeline {
 //           script {
 //             sh "mvn build-helper:parse-version versions:set \
 //               -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVerson.nextIncrementalVersion}"
-//               version.commit"
 //             def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
 //             def version = matcher[0][1]
 //             env.IMAGE_NAME = "$version-$BUILD_NUMBER"
@@ -56,18 +55,18 @@ pipeline {
 //       }
 //     }
     
-    // WORKS!
-//     stage('push') {
-//       steps {
-//         script {
-//           sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
-//           sh "docker tag homeacademy/home-application:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
-//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
-//           sh "docker tag homeacademy/data-migration:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
-//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
-//         }
-//       }
-//     }
+//     WORKS!
+    stage('push') {
+      steps {
+        withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
+          sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
+          sh "docker tag homeacademy/home-application:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+          sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+          sh "docker tag homeacademy/data-migration:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+          sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+        }
+      }
+    }
 
 //     stage('deploy') {
 //       steps {
