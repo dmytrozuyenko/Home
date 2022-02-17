@@ -9,7 +9,7 @@ pipeline {
     image_repo_name="home-dev"
     image_tag="latest"
     repository_uri = "https://${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/"
-}
+  }
   stages {
     stage('version') {
       steps {
@@ -27,6 +27,7 @@ pipeline {
           sh 'git push https://${github_token}@github.com/${github_user}/home.git --force'
         }
       }
+    }  
           
     // WORKS!
 //     stage('install') {
