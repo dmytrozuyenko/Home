@@ -11,33 +11,21 @@ pipeline {
     repository_uri = "https://${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/"
 }
   stages {
-//     stage('version') {
-//       steps {
-//         withCredentials([usernamePassword(credentialsId: 'github-token-dmytrozuyenko', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
-//           sh 'git checkout dev'
-//           script {
-//             sh "mvn build-helper:parse-version versions:set \
-//               -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVerson.nextIncrementalVersion}"
-//             def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
-//             def version = matcher[0][1]
-//             env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-//           sh 'git add pom.xml'
-//           sh 'git commit -m "[ci skip]"'
-//           sh 'git push https://${github_token}@github.com/${github_user}/home.git --force'
-//         }
-    
-//                 script {
-//                     withCredentials([usernamePassword(credentialsId: 'github-token-dmytrozuyenko', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
-//                         // git config here for the first time run
-//                         sh 'git config --global user.email "jenkins@example.com"'
-//                         sh 'git config --global user.name "jenkins"'
+    stage('version') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'github-token-dmytrozuyenko', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
+          sh 'git checkout dev'
+          script {
+            sh "mvn build-helper:parse-version versions:set \
+              -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVerson.nextIncrementalVersion}"
+            def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+            def version = matcher[0][1]
+            env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+          sh 'git add pom.xml'
+          sh 'git commit -m "[ci skip]"'
+          sh 'git push https://${github_token}@github.com/${github_user}/home.git --force'
+        }
 
-//                         sh "git remote set-url origin https://${github_user}:${github_token}@github.com/dmytrozuyenko/home.git"
-//                         sh 'git add pom.xml'
-//                         sh 'git commit -m "[ci skip]"'
-//                         sh 'git push origin HEAD:jenkins-jobs'
-//                     }
-//                 }    
     // WORKS!
 //     stage('install') {
 //       steps {        
@@ -56,25 +44,22 @@ pipeline {
 //     }
     
 //     WORKS!
-    stage('push') {
-      steps {
-        withAWS(credentials: 'aws-auth-keys', region: 'us-east-2') {
-          sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
-          sh "docker tag homeacademy/home-application:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
-          sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
-          sh "docker tag homeacademy/data-migration:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
-          sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
-        }
-      }
-    }
+//     stage('push') {
+//       steps {
+//         withAWS(credentials: 'aws-auth-keys', region: 'us-east-2') {
+//           sh "aws ecr get-login-password --region ${aws_default_region} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com"
+//           sh "docker tag homeacademy/home-application:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/home-application:latest"
+//           sh "docker tag homeacademy/data-migration:latest ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+//           sh "docker push ${aws_account_id}.dkr.ecr.${aws_default_region}.amazonaws.com/data-migration:latest"
+//         }
+//       }
+//     }
 
 //     stage('deploy') {
 //       steps {
 //         build job: 'home-dev_infra/main'
-        
 //       }
 //     }
-
-    
   }
 }
