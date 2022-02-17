@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('version') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'github-token-dmytrozuyenko', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
+        withCredentials([usernamePassword(credentialsId: 'github-token', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
           sh 'git checkout dev'
           script {
             sh "mvn build-helper:parse-version versions:set \
