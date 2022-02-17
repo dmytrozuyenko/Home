@@ -21,11 +21,13 @@ pipeline {
             def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
             def version = matcher[0][1]
             env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+          }
           sh 'git add pom.xml'
           sh 'git commit -m "[ci skip]"'
           sh 'git push https://${github_token}@github.com/${github_user}/home.git --force'
         }
-
+      }
+          
     // WORKS!
 //     stage('install') {
 //       steps {        
